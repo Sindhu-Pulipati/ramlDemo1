@@ -1,0 +1,70 @@
+#%RAML 1.0
+title: OpenBanking API Demo
+
+protocols: [HTTP,HTTPS]
+
+/accounts:
+  post:
+    description: create account for customer
+    body:
+      application/json:
+        example: !include Examples/account.json
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include Examples/accountResp.json        
+  get:
+    description: fetch account on basis of customerId 
+    queryParameters:
+      customerId:
+        type: string
+        required: true
+        example: "cust12345"
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include Examples/account.json
+  /{accountId}:
+    description: fetch single account
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include Examples/account.json
+    /balances:
+      description: fetch balances
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include Examples/balances.json
+    /transactions:
+      description: fetch all transactions
+      get:
+        queryParameters:
+          fromDate:
+            type: string
+            required: false
+            example: "2020-09-21"
+          toDate:
+            type: string
+            required: false
+            example: "2020-09-21"
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include Examples/transaction.json
+      /{transactionId}:
+        description: fetch single transaction
+        get:
+          responses:
+            200:
+              body:
+                application/json:
+                  example: !include Examples/transaction.json
+                    
